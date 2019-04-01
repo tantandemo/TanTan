@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.cache import cache
 
@@ -6,6 +5,7 @@ from lib import sms
 from lib import http
 from user.models import User
 from common import errors
+from TanTan.forms import ProfileForm
 
 
 def submit_phone(request):
@@ -22,6 +22,7 @@ def submit_vcode(request):
     vcode = request.POST.get('vcode')
 
     cache_code = cache.get(phonenum)
+    print(cache_code)
     if vcode == cache_code:
         '''判断是登录还是注册'''
         try:
@@ -43,7 +44,18 @@ def get_profile(request):
 
 def edit_profile(request):
     """修改个人资料"""
-    pass
+    profileform = ProfileForm(request.POST)
+    uid = request.session.get('uid')
+    user = User.objects.get(id=uid)
+    if profileform.is_valid():
+        # 接出对象，但不保存到数据库
+        profile = profileform.save(commit=False)
+        print(profile.to_dict())
+        user.profile = profile
+        profile.save()
+        return http.render_json(profile.to_dict())
+    else:
+        return http.render_json(profileform.errors, errors.PROFILE__ERR)
 
 def upload_avatar(request):
     """头像上"""

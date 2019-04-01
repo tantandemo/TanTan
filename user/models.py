@@ -51,7 +51,7 @@ class Profile(models.Model, ModelMixin):
         ('female', '女'),
     )
 
-    locatio = models.CharField(max_length=100, verbose_name='目标城市')
+    location = models.CharField(max_length=100, verbose_name='目标城市')
     min_distance = models.IntegerField(default=1, verbose_name='最小查找范围')
     max_distance = models.IntegerField(default=50, verbose_name='最大查找范围')
     min_dating_age = models.IntegerField(default=18, verbose_name='最小交友年龄')
