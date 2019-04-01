@@ -1,11 +1,10 @@
-from django.http import JsonResponse
 from django.core.cache import cache
 
-from lib import sms
-from lib import http
-from user.models import User
 from common import errors
-from TanTan.forms import ProfileForm
+from lib import http
+from lib import sms
+from user.forms import ProfileForm
+from user.models import User
 
 
 def submit_phone(request):
@@ -44,14 +43,16 @@ def get_profile(request):
 
 def edit_profile(request):
     """修改个人资料"""
-    profileform = ProfileForm(request.POST)
+
     uid = request.session.get('uid')
     user = User.objects.get(id=uid)
+    # instance 指明要修改的谁的字段
+    profileform = ProfileForm(request.POST, instance=user.profile)
     if profileform.is_valid():
         # 接出对象，但不保存到数据库
         profile = profileform.save(commit=False)
+        # user.profile = profile
         print(profile.to_dict())
-        user.profile = profile
         profile.save()
         return http.render_json(profile.to_dict())
     else:
