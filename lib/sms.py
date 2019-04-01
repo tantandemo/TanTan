@@ -1,8 +1,8 @@
 import random
-
 import requests
 
 from TanTan import config
+from django.core.cache import cache
 
 def get_vcode(length=4):
     start = 10 ** (length - 1)
@@ -11,6 +11,9 @@ def get_vcode(length=4):
 
 def send_sms(phonenum):
     vcode = str(get_vcode())
+    # 设置缓存180秒
+    cache.set(phonenum,vcode,180)
+
     url = config.YZX_SMS_API
     params = config.YZX_SMS_PARAMS
     params['param'] = vcode

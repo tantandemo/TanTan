@@ -1,21 +1,45 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.core.cache import cache
+
 from lib import sms
+from lib import http
+from user.models import User
+from common import errors
+
 
 def submit_phone(request):
     """提交手机号码"""
     phonenum = request.POST.get('phone')
     _, msg = sms.send_sms(phonenum)
 
-    return JsonResponse({'data': None, 'code': 0, 'msg': msg})
+    return http.render_json(data=msg)
+
 
 def submit_vcode(request):
     """通过验证码登录、注册"""
-    pass
+    phonenum = request.POST.get('phone')
+    vcode = request.POST.get('vcode')
+
+    cache_code = cache.get(phonenum)
+    if vcode == cache_code:
+        '''判断是登录还是注册'''
+        try:
+            user = User.objects.get(phonenum=phonenum)
+        except:
+            user = User.objects.create(phonenum=phonenum,nickname=phonenum)
+        request.session['uid'] = user.id
+        return http.render_json(data=user.to_dict())
+    else:
+        return http.render_json(data='验证码错误',code=errors.VCODE_ERR)
+
 
 def get_profile(request):
     """获取个人资料"""
-    pass
+    uid = request.session.get('uid')
+    user = User.objects.get(id=uid)
+    # print(user.profile)
+    return http.render_json(user.profile.to_dict())
 
 def edit_profile(request):
     """修改个人资料"""
