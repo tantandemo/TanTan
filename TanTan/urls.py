@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^api/submit/vcode/$', api.submit_vcode),
     url(r'^api/get/profile/$', api.get_profile),
     url(r'^api/edit/profile/$', api.edit_profile),
+    url(r'^api/upload/avatar/$', api.upload_avatar),
 ]

@@ -10,3 +10,9 @@ YZX_SMS_PARAMS = {
     "param": None,
     "mobile": None,
 }
+
+
+QN_ACCESS_KEY = 'xp9eR0iGWrdisqYTUnW--eDncJweBVPrcjLjQWMq'
+QN_SECRET_KEY = '5dgONJUU7aqHfNWDCVX1dU3Lc48J6WzU-K81Q8HJ'
+QN_BUCKET_NAME = 'mxinye'
+QN_CLOUD_URL = 'http://ppbkrzj87.bkt.clouddn.com'

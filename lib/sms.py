@@ -15,7 +15,8 @@ def send_sms(phonenum):
     cache.set(phonenum,vcode,180)
 
     url = config.YZX_SMS_API
-    params = config.YZX_SMS_PARAMS
+    # 防止修改原始数据
+    params = config.YZX_SMS_PARAMS.copy()
     params['param'] = vcode
     params['mobile'] = phonenum
     resp = requests.post(url, json=params)
