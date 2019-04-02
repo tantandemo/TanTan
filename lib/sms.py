@@ -1,14 +1,18 @@
 import random
 import requests
 
-from TanTan import config
 from django.core.cache import cache
+
+from TanTan import config
+from worker import celery_app
+
 
 def get_vcode(length=4):
     start = 10 ** (length - 1)
     end = 10 ** length
     return random.randint(start, end)
 
+@celery_app.task
 def send_sms(phonenum):
     vcode = str(get_vcode())
     # 设置缓存180秒

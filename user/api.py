@@ -15,9 +15,10 @@ from user.logics import handle_upload_avatar
 def submit_phone(request):
     """提交手机号码"""
     phonenum = request.POST.get('phone')
-    _, msg = sms.send_sms(phonenum)
+    # _, msg = sms.send_sms.delay(phonenum)
+    sms.send_sms.delay(phonenum)
 
-    return http.render_json(data=msg)
+    return http.render_json(data='ok')
 
 
 def submit_vcode(request):
