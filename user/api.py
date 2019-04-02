@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from common.keys import AVATAR_KEY
 from lib.sendsms import send_sms
 from lib.http import render_json
 
@@ -32,5 +33,11 @@ def edit_profile(request):
 
 def upload_avatar(request):
     # 头像上传
-    return
+    avatar = request.FILES.get('avatar')
+    # print(avatar)
+    uid = request.session['uid']
+    with open('midels/'+ AVATAR_KEY % uid, 'wb') as fp:
+        for chunk in avatar.chunks():
+            fp.write(chunk)
+    return render_json(None)
 

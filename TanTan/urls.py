@@ -19,4 +19,5 @@ from user import api
 
 urlpatterns = [
     url(r'^api/user/submit/phone/$', api.submit_phone),
+    url(r'^api/user/upload/avatar/$', api.upload_avatar),
 ]
