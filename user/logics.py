@@ -6,6 +6,7 @@ from django.conf import settings
 from common import keys
 from lib.qiniu import upload_qiniu
 from TanTan.config import QN_CLOUD_URL
+from worker import celery_app
 
 
 def save_upload_file(uid, avatar):
@@ -15,6 +16,7 @@ def save_upload_file(uid, avatar):
             fp.write(chunk)
     return filepath
 
+@celery_app.task
 def handle_upload_avatar(user, avatar):
     filename =keys.AVATAR_NAME % user.id
     filepath = save_upload_file(user.id, avatar)

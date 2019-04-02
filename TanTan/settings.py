@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -125,13 +125,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_PATH = os.path.join(BASE_DIR, 'media')
 
-CACHES = {
-  'default': {
-      'BACKEND': 'django_redis.cache.RedisCache',
-      # reids位置
-      'LOCATION': 'redis://127.0.0.1:6379/1',
-      'OPTIONS': {
-          'CLIENT_CLASS': 'django_redis.client.DefaultClient'
-    }
-  }
-}
+# CACHES = {
+#   'default': {
+#       'BACKEND': 'django_redis.cache.RedisCache',
+#       # reids位置
+#       'LOCATION': 'redis://127.0.0.1:6379/1',
+#       'OPTIONS': {
+#           'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+#     }
+#   }
+# }

@@ -66,12 +66,13 @@ def edit_profile(request):
     else:
         return http.render_json(profileform.errors, errors.PROFILE__ERR)
 
+
 def upload_avatar(request):
     """头像上"""
     uid = request.session.get('uid')
     user = User.objects.get(id = uid)
     avatar = request.FILES.get('avatar')
     # save_upload_file(uid, avatar)
-    handle_upload_avatar(user,avatar)
+    handle_upload_avatar.delay(user,avatar)
 
     return http.render_json(user.avatar)
