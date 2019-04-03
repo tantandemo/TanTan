@@ -3,6 +3,7 @@ from django.utils.deprecation import MiddlewareMixin
 from user.models import User
 from lib.http import render_json
 from common.errors import LOGIN_REGISTERD
+from common.errors import LogicErr
 
 
 class AuthMiddleware(MiddlewareMixin):
@@ -23,3 +24,12 @@ class AuthMiddleware(MiddlewareMixin):
             return
         else:
             return render_json('请登录', LOGIN_REGISTERD)
+
+class LogicErrMiddleware(MiddlewareMixin):
+    def process_exception(self, request, exception):
+        # 判断是不是自己定义的异常
+        # print(exception)
+        if isinstance(exception, LogicErr):
+            # print(exception.data)
+            # print(exception.code)
+            return render_json(exception.data, exception.code)

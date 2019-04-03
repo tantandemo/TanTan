@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'lib.middleware.AuthMiddleware',
+    'lib.middleware.LogicErrMiddleware',
 ]
 
 ROOT_URLCONF = 'TanTan.urls'

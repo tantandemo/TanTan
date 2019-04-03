@@ -39,7 +39,7 @@ def submit_vcode(request):
         request.session['uid'] = user.id
         return http.render_json(data=user.to_dict())
     else:
-        return http.render_json(data='验证码错误',code=errors.VCODE_ERR)
+        raise errors.VcodeErr('验证码错误')
 
 
 def get_profile(request):
@@ -65,7 +65,8 @@ def edit_profile(request):
         profile.save()
         return http.render_json(profile.to_dict())
     else:
-        return http.render_json(profileform.errors, errors.PROFILE__ERR)
+        # return http.render_json(profileform.errors, errors.PROFILE__ERR)
+        return errors.ProfileErr(profileform.errors)
 
 
 def upload_avatar(request):
