@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 
 from lib.orm import ModelMixin
+from social.models import Friend,Swiped
 
 class User(models.Model):
     SEX = (
@@ -19,6 +20,9 @@ class User(models.Model):
     avatar = models.CharField(max_length=256, verbose_name='个人形象')
     location = models.CharField(max_length=20, verbose_name='常居地')
 
+    # 权限
+    permission_id = models.IntegerField(default=0, verbose_name='权限等级')
+
     class Meta:
         db_table = 'user'
 
@@ -33,6 +37,17 @@ class User(models.Model):
         if not hasattr(self, '_profile'):
             self._profile, _ = Profile.objects.get_or_create(id=self.id)
         return self._profile
+
+    @property
+    def get_liked_me(self):
+        user_id_list = Swiped.liked_me_list(self)
+        users = User.objects.filter(id__in=user_id_list)
+        return users
+    @property
+    def friends(self):
+        friends_list = Friend.get_friends(self)
+        users = User.objects.filter(id__in=friends_list)
+        return users
 
     def to_dict(self):
         return {

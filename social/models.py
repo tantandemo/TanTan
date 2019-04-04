@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 
 class Swiped(models.Model):
@@ -18,6 +19,12 @@ class Swiped(models.Model):
             swiped = Swiped.objects.create(uid=user.id, sid=sid, mark=mark)
             return True
 
+    @classmethod
+    def liked_me_list(cls, user):
+        swipeds = cls.objects.filter(sid=user.id).exclude(mark='dislike').only('uid')
+        # print(swipeds)
+        uid_list = [swiped.uid for swiped in swipeds]
+        return uid_list
 
 class Friend(models.Model):
     uid1 = models.IntegerField()
@@ -28,3 +35,14 @@ class Friend(models.Model):
         uid1, uid2 =(user.id, sid) if user.id < sid else (sid, user.id)
         if not Friend.objects.filter(uid1=uid1, uid2=uid2).exists():
             Friend.objects.create(uid1=uid1, uid2=uid2)
+
+    @classmethod
+    def get_friends(cls,user):
+        friends = cls.objects.filter(Q(uid1=user.id) | Q(uid2=user.id))
+        friends_list = []
+        for friend in friends:
+            if friend.uid1 == user.id:
+                friends_list.append(friend.uid2)
+            else:
+                friends_list.append(friend.uid1)
+        return friends_list
