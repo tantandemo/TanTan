@@ -1,7 +1,7 @@
 # 存放第三方配置
 
 
-YZX_SMS_API = 'https://open.ucpaas.com/ol/sms/sendsms'
+YZX_SMS_API = 'https://open.ucpaas.com/ol/sms/{function}'
 
 YZX_SMS_PARAMS = {
      "sid":"8fb4eeca62848cf0f269480555147099",

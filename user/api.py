@@ -16,7 +16,7 @@ def submit_phone(request):
     print(phone_num)
     # 拿到手机号去发短信
     send_sms(phone_num)
-    return JsonResponse({'data':None,'code':0})
+    return render_json(data=None, code=0)
 
 
 
@@ -44,7 +44,10 @@ def submit_sms_code(request):
 
 def get_profile(request):
     # 获取个人资料
-    return
+    uid = request.session['uid']
+    user = User.objects.get(id=uid)
+
+    return render_json(user.profile.to_dict())
 
 
 def edit_profile(request):

@@ -1,3 +1,6 @@
 .idea/
 haha/
-__pycache__
+__pycache__/
+TanTan/__pycache__/
+lib/__pycache__/
+user/__pycache__/
