@@ -23,7 +23,7 @@ def send_sms(phone_num):
     params['param'] = sms_code
     params['mobile'] = phone_num
     response = requests.post(url, json=params)
-    response.json()
+    # response.json()
 
     # 检查结果
     if response.status_code == 200:
